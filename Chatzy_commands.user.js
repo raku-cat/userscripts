@@ -6,17 +6,18 @@
 // @version     1
 // @grant       none
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js
-// @require     http://www.rakutiki.tv/userscripts/jquery.cookie.js
 // ==/UserScript==
-var ref = $.cookie('ref')
+var ref = GM_getValue('ref');
+var input = $('#X91').val();
 $('#X91').on('keydown', function (e) {
   if (e.keyCode == 13) {
-    if ($('#X91').val() == '!ref') {
-      $('#X91').val(ref);
-      $('form#X114').submit();
+    if (input == '!ref') {
+      $('#X91').val('test');
     }
-    if ($('#X91')).val = '!ref add https?://(?:[a-z0-9-]+.)+[a-z]{2,6}(?:/[^/#?]+)+.(?:jpg|gif|png)$') {
-      $.cookie('ref', this.value())
-    }
+    //   if (input.substring(0, 9) === '!ref add ') {
+    //GM_setValue('ref', input.substring(9));
+    //   console.log('test');
+    //}
+
   }
 });
