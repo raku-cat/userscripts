@@ -3,7 +3,7 @@
 // @namespace   Raku
 // @description Adds extra commands(prefixed with !)
 // @include     http://*.chatzy.*/*
-// @version     .0
+// @version     1.2
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js
