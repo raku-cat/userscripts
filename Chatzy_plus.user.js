@@ -9,12 +9,12 @@
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js
 // ==/UserScript==
 // dust
-if !(GM_getValue('firstrun') == 'false') {
+if (GM_getValue('firstrun', '0') == '0') {
   if (confirm('Welcome to chatzy+!\nThis script adds several new functions to chatzy in the form of input line commands, click OK to learn more about the available commands and features, otherwise you can run !help to bring up the menu later.\nBy continuing to use this script you agree that the author and any contributors are not responsible for anything that may happen.')) {
     helpdialog();
-    GM_setValue('firstrun', 'false');
+    GM_setValue('firstrun', '1');
   } else {
-    GM_setValue('firstrun', 'false');
+    GM_setValue('firstrun', '1');
   }
 }
 $('#X91').on('keydown', function (e) {
@@ -31,10 +31,8 @@ $('#X91').on('keydown', function (e) {
     }
     if (input == '!help') {
       e.preventDefault();
+      helpdialog();
       $('#X91').val('');
-      function helpdialog() {
-      alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.\n!short on/off - Turns shorthands on or off, shorthands are as follows:\nWrap text in ^(\"^the quick brown fox^")\ for italics, wrap text in * for bold, and wrap text in _ for underline\n!unaway on/off - Turns auto-unsetting of your away on or off');
-    }
     }
     if (input.substr(0, 7) == '!short ') {
       e.preventDefault();
@@ -79,3 +77,6 @@ $('#X91').on('keydown', function (e) {
     }
   }
 });
+function helpdialog() {
+  alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.\n!short on/off - Turns shorthands on or off, shorthands are as follows:\nWrap text in ^("^the quick brown fox^") for italics, wrap text in * for bold, and wrap text in _ for underline\n!unaway on/off - Turns auto-unsetting of your away on or off');
+}
