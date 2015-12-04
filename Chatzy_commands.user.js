@@ -27,17 +27,5 @@ $('#X91').on('keydown', function (e) {
       $('#X91').val('');
       alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.');
     }
-	if (input.substr(0, 7) ===  '!short ') {
-	  if ((input.substr(7) === 'on') || (GM_getValue('short') == 'on')){
-		$('#X91').on('keydown', function (e) {
-  			if (e.keyCode == 13) {
-    			this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
-    			this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
-    			this.value = this.value.replace(/\^([^*]+?)\^/g, '[i]$1[/i]');
- 			}
-	  	}
-		if ((input.substr(7) === 'off') || (GM_getValue('short') == 'off')){
-			}
-	}
   }
 });
