@@ -64,11 +64,11 @@ $('#X91').on('keydown', function (e) {
 function helpdialog() {
   alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.\n!short on/off - Turns shorthands on or off, shorthands are as follows:\nWrap text in ^("^the quick brown fox^") for italics, wrap text in * for bold, and wrap text in _ for underline\n!unaway on/off - Turns auto-unsetting of your away on or off');
 }
-if (GM_getValue('away') == 'on') {
-  setinterval(function () {
+window.setinterval(function () {
+  if (GM_getValue('away') == 'on') {
     if ($('input[value="I am here!"]').is(':visible')) {
       $('input[value="I am here!"]').trigger('click');
       $('form#X114').submit();
     }
-  }, 150);
-}
+  }
+}, 150);
