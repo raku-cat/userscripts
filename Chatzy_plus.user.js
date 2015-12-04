@@ -3,7 +3,7 @@
 // @namespace   Raku
 // @description Adds extra functionality to chatzy
 // @include     http://*.chatzy.*/*
-// @version     1.0
+// @version     1.0.1
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js
@@ -31,8 +31,8 @@ $('#X91').on('keydown', function (e) {
     }
     if (input == '!help') {
       e.preventDefault();
+      $('#X91').val(' ');
       helpdialog();
-      $('#X91').val('');
     }
     if (input.substr(0, 7) == '!short ') {
       e.preventDefault();
@@ -55,28 +55,20 @@ $('#X91').on('keydown', function (e) {
       $('#X91').val(' ');
     }
     if (GM_getValue('short') == 'on') {
-      $('#X91').on('keydown', function (f) {
-        if (f.keyCode == 13) {
-          if (GM_getValue('short') == 'on') {
-            this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
-            this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
-            this.value = this.value.replace(/\^([^*]+?)\^/g, '[i]$1[/i]');
-          }
-        }
-      });
-    }
-    if (GM_getValue('away') == 'on') {
-      setInterval(function () {
-        if (GM_getValue('away') == 'on') {
-          if ($('input[value="I am here!"]').is(':visible')) {
-            $('input[value="I am here!"]').trigger('click');
-            $('form#X114').submit();
-          }
-        }
-      }, 150);
+      this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
+      this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
+      this.value = this.value.replace(/\^([^*]+?)\^/g, '[i]$1[/i]');
     }
   }
 });
 function helpdialog() {
   alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.\n!short on/off - Turns shorthands on or off, shorthands are as follows:\nWrap text in ^("^the quick brown fox^") for italics, wrap text in * for bold, and wrap text in _ for underline\n!unaway on/off - Turns auto-unsetting of your away on or off');
+}
+if (GM_getValue('away') == 'on') {
+  setinterval(function () {
+    if ($('input[value="I am here!"]').is(':visible')) {
+      $('input[value="I am here!"]').trigger('click');
+      $('form#X114').submit();
+    }
+  }, 150);
 }
