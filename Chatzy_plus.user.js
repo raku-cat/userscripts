@@ -9,6 +9,9 @@
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js
 // ==/UserScript==
 // dust
+
+//First run init
+
 if (GM_getValue('firstrun', '0') == '0') {
   if (confirm('Welcome to chatzy+!\nThis script adds several new functions to chatzy in the form of input line commands, click OK to learn more about the available commands and features, otherwise you can run !help to bring up the menu later.\nBy continuing to use this script you agree that the author and any contributors are not responsible for anything that may happen.')) {
     helpdialog();
@@ -17,6 +20,9 @@ if (GM_getValue('firstrun', '0') == '0') {
     GM_setValue('firstrun', '1');
   }
 }
+
+//Command hooks
+
 $('#X91').on('keydown', function (e) {
   var input = $('#X91').val();
   if (e.keyCode == 13) {
@@ -26,7 +32,7 @@ $('#X91').on('keydown', function (e) {
     if (input.substr(0, 9) === '!ref add ') {
       e.preventDefault();
       GM_setValue('ref' + input.split(' ') [2], input.split(' ') [3]);
-      $('#X91').val('');
+      $('#X91').val(' ');
       alert('Ref URL added, post with !ref ' + input.split(' ') [2]);
     }
     if (input == '!help') {
@@ -36,10 +42,10 @@ $('#X91').on('keydown', function (e) {
     }
     if (input.substr(0, 7) == '!short ') {
       e.preventDefault();
-      if (input.substr(7) == 'on') {
+      if (input.split(' ') [1] == 'on') {
         GM_setValue('short', 'on');
-      }
-      if (input.substr(7) == 'off') {
+      } 
+      if (input.split(' ') [1] == 'off') {
         GM_setValue('short', 'off');
       }
       $('#X91').val(' ');
@@ -48,7 +54,7 @@ $('#X91').on('keydown', function (e) {
       e.preventDefault();
       if (input.substr(8) == 'on') {
         GM_setValue('away', 'on');
-      }
+      } 
       if (input.substr(8) == 'off') {
         GM_setValue('away', 'off');
       }
@@ -61,10 +67,16 @@ $('#X91').on('keydown', function (e) {
     }
   }
 });
+
+//Function to show help dialog
+
 function helpdialog() {
   alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.\n!short on/off - Turns shorthands on or off, shorthands are as follows:\nWrap text in ^("^the quick brown fox^") for italics, wrap text in * for bold, and wrap text in _ for underline\n!unaway on/off - Turns auto-unsetting of your away on or off');
 }
-window.setinterval(function () {
+
+//Auto unaway function
+
+window.setInterval(function () {
   if (GM_getValue('away') == 'on') {
     if ($('input[value="I am here!"]').is(':visible')) {
       $('input[value="I am here!"]').trigger('click');
