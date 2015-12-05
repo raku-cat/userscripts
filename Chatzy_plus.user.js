@@ -2,8 +2,8 @@
 // @name        Chatzy+
 // @namespace   Raku
 // @description Adds extra functionality to chatzy
-// @include     http://*.chatzy.*/*
-// @version     1.0.1
+// @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
+// @version     1.1
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js
@@ -30,18 +30,15 @@ $('#X91').on('keydown', function (e) {
       $('#X91').val(GM_getValue('ref' + input.split(' ') [1]));
     }
     if (input.substr(0, 9) === '!ref add ') {
-      e.preventDefault();
       GM_setValue('ref' + input.split(' ') [2], input.split(' ') [3]);
       $('#X91').val(' ');
       alert('Ref URL added, post with !ref ' + input.split(' ') [2]);
     }
-    if (input == '!help') {
-      e.preventDefault();
+    if (input == '!help') {      
       $('#X91').val(' ');
       helpdialog();
     }
     if (input.substr(0, 7) == '!short ') {
-      e.preventDefault();
       if (input.split(' ') [1] == 'on') {
         GM_setValue('short', 'on');
       } 
@@ -51,7 +48,6 @@ $('#X91').on('keydown', function (e) {
       $('#X91').val(' ');
     }
     if (input.substr(0, 8) == '!unaway ') {
-      e.preventDefault();
       if (input.substr(8) == 'on') {
         GM_setValue('away', 'on');
       } 
