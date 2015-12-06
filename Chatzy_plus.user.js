@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        Chatzy+
-// @namespace   https://rakutiki.tv
-// @author	Raku
+// @namespace   https://rakutiki.tv/
+// @author      Raku
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
-// @version     1.2.1
+// @include     http://us*.chatzy.*/*
+// @version     1.2.1.1
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_deleteValue
