@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name        Chatzy+
-// @namespace   Raku
+// @namespace   https://rakutiki.tv
+// @author	Raku
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @version     1.2.1
