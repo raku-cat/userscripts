@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.2.1.1
+// @version     1.2.2
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_deleteValue
@@ -13,9 +13,9 @@
 // ==/UserScript==
 // dust
 //Vars for stuff
-
 var framelink = document.getElementById('X457').href.replace('default', 'frame');
 var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)ChatzySkin\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+var lastHtml = $('#X294').text();
 //First run init
 if (GM_getValue('firstrun', '0') == '0') {
   if (confirm('Welcome to chatzy+ version ' + GM_info.script.version + '!\nThis script adds several new functions to chatzy in the form of input line commands, click OK to learn more about the available commands and features, otherwise you can run !help to bring up the menu later.\nBy continuing to use this script you agree that the author and any contributors are not responsible for anything that may happen.')) {
@@ -100,6 +100,31 @@ $('#X91').on('keydown', function (e) {
       }
       $('#X91').val(' ');
     }
+    if (input == '!history') {
+      if (GM_getValue('history') !== undefined) {
+      alert(GM_getValue('history'));
+      } else {
+        alert('None yet :<');
+      }
+      $('#X91').val(' ');
+    }
+    if (input.substr(0, 9) == '!history ') {
+      if (input.substr(9) == 'on') {
+        GM_setValue('msg', 'on');
+      }
+      if (input.substr(9) == 'off') {
+        GM_setValue('msg', 'off')
+      }
+      if (input.substr(9) == 'clear') {
+        if (confirm('Are you sure you want to clear local PM storage? (IRREVERSIBLE)')) {
+          GM_deleteValue('history');
+          alert('Local PM storage cleared.');
+        } else {
+          alert('Local PM storage not cleared.');
+        }
+      }
+      $('#X91').val(' ');
+    }
     if (GM_getValue('short') == 'on') {
       this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
       this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
@@ -109,7 +134,7 @@ $('#X91').on('keydown', function (e) {
 });
 //Function to show help dialog
 function helpdialog() {
-  alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.\n!short on/off - Turns shorthands on or off, shorthands are as follows:\nWrap text in ^("^the quick brown fox^") for italics, wrap text in * for bold, and wrap text in _ for underline\n!unaway on/off - Turns auto-unsetting of your away on or off\n!skin on/off - Makes your skin you set in account setting apply globaly(all rooms), it will override any rooms with their own skin set as well however\n!frame on/off - Makes chatzy use the stylesheet they use when the chat is embedded in an iframe, might not look pretty\n!font set <url>/off - refer to !help font');
+  alert('Command listing, things wrapped in <> should not be typed with the <> surrounding them\n!ref add <name> <url> - Stores the specified url under the specified name.\n!ref <name> - Posts the stored ref with that name.\n!short on/off - Turns shorthands on or off, shorthands are as follows:\nWrap text in ^("^the quick brown fox^") for italics, wrap text in * for bold, and wrap text in _ for underline\n!unaway on/off - Turns auto-unsetting of your away on or off\n!skin on/off - Makes your skin you set in account setting apply globaly(all rooms), it will override any rooms with their own skin set as well however\n!frame on/off - Makes chatzy use the stylesheet they use when the chat is embedded in an iframe, might not look pretty\n!font set <url>/off - refer to !help font\n!history on/off/clear - Turns PM logging locally on or off, or clears your local PM storage, run without any arguments to get your local PM logs');
 }
 //Other various functions I'm too lazy to mark
 
@@ -130,7 +155,23 @@ window.setInterval(function () {
       document.getElementById('X457').href = document.getElementById('X457').href.replace(document.getElementById('X457').href.split(':') [4], cookieValue);
     }
   }
+  if ($('#X294').is(':visible')) {
+    var time = $('#X93 .X724').html();
+    var newHtml = $('#X294').text();
+    var name = $('#X93 em').html();
+    if (GM_getValue('msg') == 'on') {
+      if (newHtml != lastHtml) {
+        lastHtml = newHtml;
+        if (GM_getValue('history') !== undefined) {
+          GM_setValue('history', GM_getValue('history') + '\n' + name + ' ' + newHtml + ' ' + time);
+        } else {
+          GM_setValue('history', '\n' + name + ' ' + newHtml + ' ' + time);
+        }
+      }
+    }
+  }
 }, 150);
 if (GM_getValue('font')) {
   $('head').append('<link href="' + GM_getValue('font') + '" rel="stylesheet" type="text/css">');
 }
+console.log(GM_getValue('msg'));
