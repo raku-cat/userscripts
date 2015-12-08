@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.2.2
+// @version     1.2.2.1
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_deleteValue
@@ -105,6 +105,7 @@ $('#X91').on('keydown', function (e) {
       alert(GM_getValue('history'));
       } else {
         alert('None yet :<');
+        $('#X91').val(' ');
       }
       $('#X91').val(' ');
     }
@@ -121,7 +122,9 @@ $('#X91').on('keydown', function (e) {
           alert('Local PM storage cleared.');
         } else {
           alert('Local PM storage not cleared.');
+          $('#X91').val(' ');
         }
+        $('#X91').val(' ');
       }
       $('#X91').val(' ');
     }
