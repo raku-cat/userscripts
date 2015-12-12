@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.2.2.2
+// @version     1.2.2.3
 // @grant       GM_getValue
 // @grant       GM_setValue
 // @grant       GM_deleteValue
@@ -17,16 +17,15 @@ var framelink = document.getElementById('X457').href.replace('default', 'frame')
 var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)ChatzySkin\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 var lastHtml = $('#X294').text();
 //First run init
-
 if (GM_getValue('firstrun', '0') == '0') {
   if (confirm('Welcome to chatzy+ version ' + GM_info.script.version + '!\nThis script adds several new functions to chatzy in the form of input line commands, click OK to learn more about the available commands and features, otherwise you can run !help to bring up the menu later.\nBy continuing to use this script you agree that the author and any contributors are not responsible for anything that may happen.')) {
     helpdialog();
-    if (window.chrome == true) {
-      alert('This script is known to have issues working right on chrome. Don\'t say I didn\'t warn you, mmkay?' )
-    }
     GM_setValue('firstrun', '1');
   } else {
     GM_setValue('firstrun', '1');
+  }
+  if (window.chrome) {
+    alert('This script is known to have issues working right on chrome. Don\'t say I didn\'t warn you, mmkay?')
   }
 }
 //Command hooks
@@ -106,7 +105,7 @@ $('#X91').on('keydown', function (e) {
     }
     if (input == '!history') {
       if (GM_getValue('history') !== undefined) {
-      alert(GM_getValue('history'));
+        alert(GM_getValue('history'));
       } else {
         alert('None yet :<');
         $('#X91').val(' ');
