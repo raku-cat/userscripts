@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.3.1
+// @version     1.3.2
 // @icon        http://puu.sh/oakvy/51a99cf006.png
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -16,6 +16,7 @@
 // @grant       GM_log
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js
 // @require     https://openuserjs.org/src/libs/sizzle/GM_config.js
+// @require     https://raw.githubusercontent.com/eligrey/FileSaver.js/master/FileSaver.js
 // ==/UserScript==
 // dust
 // Vars
@@ -47,7 +48,16 @@ var fieldvar = {
     ],
     'default': 'Off'
   },
- /* 'History': {
+  'Short': {
+    'label': 'Shorthands for styled text(bold, italics, underline)',
+    'type': 'radio',
+    'options': [
+      'On',
+      'Off'
+    ],
+    'default': 'Off'
+  },
+  'History': {
     'label': 'Log all incoming PMs',
     'type': 'radio',
     'options': [
@@ -58,17 +68,38 @@ var fieldvar = {
   },
   'history':
   {
-    'label': 'Show logged PMs',
+    'label': 'Save logged PMs',
     'type': 'button',
     'size': 100,
     'click': function () {
       if (GM_getValue('history') !== undefined) {
-        alert(GM_getValue('history'));
+        var log = new Blob([GM_getValue('history')], {
+          type: 'text/plain;charset=utf-8'
+        });
+        saveAs(log, 'Chatzy_PM_logs.txt');
       } else {
         alert('None yet :<');
       }
     }
-  },*/
+  },
+  'clearhistory':
+  {
+    'label': 'Clear all logged PMs',
+    'type': 'button',
+    'size': 100,
+    'click': function () {
+      if (GM_getValue('history') !== undefined) {
+        if (confirm('Are you sure you want to clear local PM storage? (IRREVERSIBLE)')) {
+          GM_deleteValue('history');
+          alert('Local PM storage cleared.');
+        } else {
+          alert('Local PM storage not cleared.');
+        }
+      } else {
+        alert('None to clear :O');
+      }
+    }
+  },
   'Font':
   {
     'label': 'Google font',
@@ -80,7 +111,7 @@ var fieldvar = {
 var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)ChatzySkin\s*\=\s*([^;]*).*$)|^.*$/, '$1');
 var framelink = $('head link').attr('href').replace('default', 'frame');
 var skinlink = $('head link').attr('href');
-//var lastHtml = $('#X294').text();
+var lastHtml = $('div#X94 #X296').text();
 // GM_config stuff
 GM_config.init({
   'id': 'Chatzy+_config',
@@ -98,35 +129,20 @@ if (GM_getValue('firstrun', '0') == '0') {
   if (window.chrome) {
     alert('This script is known to have issues working right on chrome. Don\'t say I didn\'t warn you, mmkay?');
   }
-} /*if (input == '!history') {
-if (GM_getValue('history') !== undefined) {
-alert(GM_getValue('history'));
-} else {
- alert('None yet :<');
-  $('#X91').val(' ');
- }
- $('#X91').val(' ');
-}
-if (input.substr(0, 9) == '!history ') {
- if (input.substr(9) == 'on') {
-    GM_setValue('msg', 'on');
-  }
-  if (input.substr(9) == 'off') {
-   GM_setValue('msg', 'off')
-  }
- if (input.substr(9) == 'clear') {
-   if (confirm('Are you sure you want to clear local PM storage? (IRREVERSIBLE)')) {
-   GM_deleteValue('history');
-    alert('Local PM storage cleared.');
-  } else {
-    alert('Local PM storage not cleared.');
-if (GM_getValue('short') == 'on') {*/
-//this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
-// this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
-//this.value = this.value.replace(/\^([^*]+?)\^/g, '[i]$1[/i]');
-//}
-//Setting functions
+}//Setting functions
 
+if (GM_config.get('Font') !== '') {
+  $('head').append('<link href="' + GM_config.get('Font') + '" rel="stylesheet" type="text/css">');
+}
+$('input#X92').keypress(function (e) {
+  if (e.which == 13) {
+    if (GM_config.get('Short') == 'On') {
+      this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
+      this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
+      this.value = this.value.replace(/\^([^*]+?)\^/g, '[i]$1[/i]');
+    }
+  }
+});
 window.setInterval(function () {
   if (GM_config.get('Unaway') == 'On') {
     if ($('input[value="I am here!"]').is(':visible')) {
@@ -144,24 +160,19 @@ window.setInterval(function () {
       $('head link').attr('href', skinlink.replace(skinlink.split(':') [3], cookieValue));
     }
   }
-/*  var thename = $('body div:nth-last-child(2)').children('p:nth-child(2) em').html();
-  console.log(thename);
-  if ($('#X294').is(':visible')) {
-    var time = $('#X93 .X724').html();
-    var newHtml = $('#X294').text();
-    var name = $('#X93 em').html();
+  if ($('#X94').is(':visible')) {
+    var time = $('div#X94').find('.X741').text();
+    var newHtml = $('div#X94 #X296').text();
+    var name = $('div#X94').find('em').text();
     if (GM_config.get('History') == 'On') {
       if (newHtml != lastHtml) {
         lastHtml = newHtml;
         if (GM_getValue('history') !== undefined) {
-          GM_setValue('history', GM_getValue('history') + '\n' + name + ' ' + newHtml + ' ' + time);
+          GM_setValue('history', GM_getValue('history') + '\n' + name + '\n' + newHtml + '\n' + time + '\n');
         } else {
-          GM_setValue('history', '\n' + name + ' ' + newHtml + ' ' + time);
+          GM_setValue('history', name + '\n' + newHtml + '\n' + time + '\n');
         }
       }
     }
-  }*/
+  }
 }, 150);
-if (GM_config.get('Font') !== '') {
-  $('head').append('<link href="' + GM_config.get('Font') + '" rel="stylesheet" type="text/css">');
-}
