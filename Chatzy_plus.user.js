@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.3.2.1.1
+// @version     1.3.2.2
 // @icon        http://puu.sh/oakvy/51a99cf006.png
 // @grant       GM_getValue
 // @grant       GM_setValue
