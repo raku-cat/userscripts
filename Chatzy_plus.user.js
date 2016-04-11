@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.3.2
+// @version     1.3.2.1
 // @icon        http://puu.sh/oakvy/51a99cf006.png
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -56,6 +56,15 @@ var fieldvar = {
       'Off'
     ],
     'default': 'Off'
+  },
+  'Align': {
+    'label': 'Align timestamps to the right or left',
+    'type': 'radio',
+    'options': [
+      'Right',
+      'Left'
+    ],
+    'default': 'Right'
   },
   'History': {
     'label': 'Log all incoming PMs',
@@ -109,14 +118,13 @@ var fieldvar = {
   }
 };
 var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)ChatzySkin\s*\=\s*([^;]*).*$)|^.*$/, '$1');
-var framelink = $('head link').attr('href').replace('default', 'frame');
-var skinlink = $('head link').attr('href');
 var lastHtml = $('div#X94 #X296').text();
 // GM_config stuff
 GM_config.init({
   'id': 'Chatzy+_config',
   'title': 'Chatzy+ config',
-  'fields': fieldvar
+  'fields': fieldvar,
+  'css': '#Chatzy+_config { background: #2D2D2D !important; }'
 });
 GM_registerMenuCommand('Chatzy+ - Configure', function () {
   GM_config.open();
@@ -129,7 +137,7 @@ if (GM_getValue('firstrun', '0') == '0') {
   if (window.chrome) {
     alert('This script is known to have issues working right on chrome. Don\'t say I didn\'t warn you, mmkay?');
   }
-}//Setting functions
+} //Setting functions
 
 if (GM_config.get('Font') !== '') {
   $('head').append('<link href="' + GM_config.get('Font') + '" rel="stylesheet" type="text/css">');
@@ -148,16 +156,20 @@ window.setInterval(function () {
     if ($('input[value="I am here!"]').is(':visible')) {
       $('input[value="I am here!"]').trigger('click');
       $('form#X116').submit();
+      $('form#X116').submit();
+      $('form#X116').submit();
     }
   }
+  var framelink = $('head link:first').attr('href').replace('default', 'frame');
   if (GM_config.get('Frame') == 'On') {
-    if ($('head link').attr('href') != framelink) {
-      $('head link').attr('href', framelink);
+    if ($('head link:first').attr('href') != framelink) {
+      $('head link:first').attr('href', framelink);
     }
   }
+  var skinlink = $('head link:first').attr('href');
   if (GM_config.get('Skin') == 'On') {
     if (skinlink.split(':') [3] != cookieValue) {
-      $('head link').attr('href', skinlink.replace(skinlink.split(':') [3], cookieValue));
+      $('head link:first').attr('href', skinlink.replace(skinlink.split(':') [3], cookieValue));
     }
   }
   if ($('#X94').is(':visible')) {
@@ -175,4 +187,14 @@ window.setInterval(function () {
       }
     }
   }
+  console.log($('head link:first').attr('href'));
+  console.log(framelink);
 }, 150);
+window.setInterval(function () {
+  if (GM_config.get('Align') == 'Left') {
+    $('.X741').not(':first-child').each(function () {
+      $(this).prependTo($(this).parent());
+      $(this).attr('style', 'float:left;');
+    });
+  }
+}, 1);
