@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.3.2.2
+// @version     1.3.2.3
 // @icon        http://puu.sh/oakvy/51a99cf006.png
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -114,7 +114,7 @@ var fieldvar = {
     'label': 'Google font',
     'type': 'text',
     'title': 'Put the link to the google font you want',
-    'size': 20000,
+    'size': 200,
   }
 };
 var cookieValue = document.cookie.replace(/(?:(?:^|.*;\s*)ChatzySkin\s*\=\s*([^;]*).*$)|^.*$/, '$1');
@@ -123,13 +123,12 @@ var lastHtml = $('div#X94 #X296').text();
 var frame = document.createElement('div');
 document.body.appendChild(frame);
 GM_config.init({
-  'id': 'Chatzy+_config',
+  'id': 'chatzy-config',
   'title': 'Chatzy+ config',
   'fields': fieldvar,
-  //'css': '#Chatzy+_config { background: #2D2D2D !important; }',
+  'css': '#chatzy-config { background: inherit !important; display: inline-block !important; overflow: hidden !important; width: 16% !important; height: unset !important; max-width: none !important; max-height: none !important; border: inherit !important;}',
   'frame': frame
 });
-$('head').append('<style>body div:last-child { background: inherit !important; }</style>');
 GM_registerMenuCommand('Chatzy+ - Configure', function () {
   GM_config.open();
 });
