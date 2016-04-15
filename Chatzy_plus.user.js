@@ -145,6 +145,9 @@ if (GM_getValue('firstrun', '0') == '0') {
 if (GM_config.get('Font') !== '') {
   $('head').append('<link href="' + GM_config.get('Font') + '" rel="stylesheet" type="text/css">');
 }
+if (GM_config.get('Frame') == 'On') {
+  $('head').append('<style type="text/css">DIV#X171 {width: 100% !important; height: 92.14vh !important;} #X211 DIV {display: none !important;} INPUT#X92 {width: 85.8vw !important;} DIV#X185 DIV{top:unset !important; padding-left:unset !important;}</style>');
+}
 $('input#X92').keypress(function (e) {
   if (e.which == 13) {
     if (GM_config.get('Short') == 'On') {
@@ -190,8 +193,6 @@ window.setInterval(function () {
       }
     }
   }
-  console.log($('head link:first').attr('href'));
-  console.log(framelink);
 }, 150);
 window.setInterval(function () {
   if (GM_config.get('Align') == 'Left') {
