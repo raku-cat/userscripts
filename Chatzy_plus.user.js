@@ -5,7 +5,7 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.3.2.3
+// @version     1.3.2.5
 // @icon        http://puu.sh/oakvy/51a99cf006.png
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -49,7 +49,7 @@ var fieldvar = {
     'default': 'Off'
   },
   'Short': {
-    'label': 'Shorthands for styled text(bold, italics, underline)',
+    'label': 'Shorthands for styled text(bold, italics, underline) Exclude a message by starting it with %',
     'type': 'radio',
     'options': [
       'On',
@@ -61,8 +61,8 @@ var fieldvar = {
     'label': 'Align timestamps to the right or left',
     'type': 'radio',
     'options': [
-      'Right',
-      'Left'
+      'Left',
+      'Right'
     ],
     'default': 'Right'
   },
@@ -134,7 +134,7 @@ GM_registerMenuCommand('Chatzy+ - Configure', function () {
 });
 //First run init
 if (GM_getValue('firstrun', '0') == '0') {
-  if (confirm('Welcome to chatzy+ version ' + GM_info.script.version + '!\nThis script adds several new functions to chatzy.\nBy continuing to use this script you agree that the author and any contributors are not responsible for anything that may happen including consequences or technical issues, if you do not agree to these terms please close this dialog and uninstall this script.')) {
+  if (confirm('Welcome to chatzy+ version ' + GM_info.script.version + '!\nThis script adds several new functions to chatzy.\nBy continuing to use this script you agree that the author and any contributors are not responsible for anything that\n may happen including consequences or technical issues as a result of using this script, if you do not agree to these terms please close this dialog and uninstall this script.')) {
     GM_setValue('firstrun', '1');
   }
   if (window.chrome) {
@@ -145,15 +145,16 @@ if (GM_getValue('firstrun', '0') == '0') {
 if (GM_config.get('Font') !== '') {
   $('head').append('<link href="' + GM_config.get('Font') + '" rel="stylesheet" type="text/css">');
 }
-if (GM_config.get('Frame') == 'On') {
-  $('head').append('<style type="text/css">DIV#X171 {width: 100% !important; height: 92.14vh !important;} #X211 DIV {display: none !important;} INPUT#X92 {width: 85.8vw !important;} DIV#X185 DIV{top:unset !important; padding-left:unset !important;}</style>');
-}
-$('input#X92').keypress(function (e) {
+$('input#X5243').keypress(function (e) {
   if (e.which == 13) {
     if (GM_config.get('Short') == 'On') {
-      this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
-      this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
-      this.value = this.value.replace(/\^([^*]+?)\^/g, '[i]$1[/i]');
+      if (this.value.charAt(0) != '%') {
+        this.value = this.value.replace(/\*([^*]+?)\*/g, '[b]$1[/b]');
+        this.value = this.value.replace(/\_([^*]+?)\_/g, '[u]$1[/u]');
+        this.value = this.value.replace(/\^([^*]+?)\^/g, '[i]$1[/i]');
+      } else {
+        this.value = this.value.substr(1);
+      }
     }
   }
 });
@@ -170,6 +171,7 @@ window.setInterval(function () {
   if (GM_config.get('Frame') == 'On') {
     if ($('head link:first').attr('href') != framelink) {
       $('head link:first').attr('href', framelink);
+      $('head').append('<style type="text/css">DIV#X171 { height: 92.44vh !important; width: 92.14vw !important;} #X211 DIV {display: none !important;} INPUT#X92 {width: 85.83vw !important;} DIV#X185 DIV{top:unset !important; padding-left:unset !important;} TABLE#X963 { vertical-align: bottom !important; height: 96.5% !important; width: 100% !important ;}</style>');
     }
   }
   var skinlink = $('head link:first').attr('href');
@@ -196,7 +198,7 @@ window.setInterval(function () {
 }, 150);
 window.setInterval(function () {
   if (GM_config.get('Align') == 'Left') {
-    $('.X741').not(':first-child').each(function () {
+    $('.X2087').not(':first-child').each(function () {
       $(this).prependTo($(this).parent());
       $(this).attr('style', 'float:left;');
     });
