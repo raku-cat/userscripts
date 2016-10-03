@@ -5,7 +5,8 @@
 // @description Adds extra functionality to chatzy
 // @include     /https?://us1[1-9]|2[1-9]\.chatzy\.(com|org)/*/
 // @include     http://us*.chatzy.*/*
-// @version     1.3.2.5
+// @include     https://rakutiki.tv/*
+// @version     1.3.3
 // @icon        http://puu.sh/oakvy/51a99cf006.png
 // @grant       GM_getValue
 // @grant       GM_setValue
@@ -65,6 +66,15 @@ var fieldvar = {
       'Right'
     ],
     'default': 'Right'
+  },
+  'Offline': {
+    'label': 'Hide offline users in the list',
+    'type': 'radio',
+    'options': [
+      'On',
+      'Off'
+    ],
+    'default': 'Off'
   },
   'History': {
     'label': 'Log all incoming PMs',
@@ -142,6 +152,9 @@ if (GM_getValue('firstrun', '0') == '0') {
   }
 } //Setting functions
 
+if (GM_config.get('Offline') == 'On') {
+  $('head').append('<style>.X2621{display:none;}</style>');
+}
 if (GM_config.get('Font') !== '') {
   $('head').append('<link href="' + GM_config.get('Font') + '" rel="stylesheet" type="text/css">');
 }
@@ -162,9 +175,9 @@ window.setInterval(function () {
   if (GM_config.get('Unaway') == 'On') {
     if ($('input[value="I am here!"]').is(':visible')) {
       $('input[value="I am here!"]').trigger('click');
-      $('form#X116').submit();
-      $('form#X116').submit();
-      $('form#X116').submit();
+      $('form#X7495').submit();
+      $('form#X7495').submit();
+      $('form#X7495').submit();
     }
   }
   var framelink = $('head link:first').attr('href').replace('default', 'frame');
