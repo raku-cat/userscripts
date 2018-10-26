@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Redirect OSRS Wiki
 // @namespace    https://github.com/raku-cat/
-// @version      1.0.1
+// @version      1.1
 // @description  Redirects old wikia pages to the new wiki, and replaces google links with new wiki links.
 // @author       Raku <raku(at)raku(dot)party>
 // @license      GPL version 3; https://www.gnu.org/licenses/gpl-3.0.txt
