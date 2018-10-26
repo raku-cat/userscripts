@@ -8,7 +8,7 @@
 // @homepageURL  https://github.com/raku-cat/userscripts
 // @updateURL    https://github.com/raku-cat/userscripts/raw/master/osrswiki_redir.user.js 
 // @downloadURL  https://github.com/raku-cat/userscripts/raw/master/osrswiki_redir.user.js
-// @include      /^https?:\/\/(oldschoolrunescape\.wikia\.com|(www.)?google\.com)\/(wiki\/.+?\/?|search\?q\=.+?)/
+// @include      /^https?:\/\/(oldschoolrunescape\.wikia\.com|(www.)?google\.com)\/(wiki\/.+?\/?|search\?(q|client)\=.+?)/
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
