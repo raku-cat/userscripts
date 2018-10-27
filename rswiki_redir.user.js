@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Redirect RS Wiki
 // @namespace    https://github.com/raku-cat/
-// @version      1.2.1
+// @version      1.3
 // @description  Redirects old wikia pages to the new wiki, and replaces google links with new wiki links.
 // @author       Raku <raku(at)raku(dot)party>
 // @license      GPL version 3; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -28,12 +28,12 @@ var old_rs_wikif = "runescape.fandom.com";
 
 if (pathname.startsWith("/wiki/")) {
   var converted_path = convert_wiki(pathname);
-  var converted_host = detect_version(hostname);
-  var new_url = converted_host + converted_url;
+  var converted_host = get_rs_version(hostname);
+  var new_url = converted_host + converted_path;
   window.location.replace(new_url);
 }
 
-else if (hostname == google) {
+else if (hostname.includes("google")) {
   var old_wiki_result = get_result();
   for (var i=0; i<old_wiki_result.length; i++) {
     old_wiki_result[i].removeAttribute("onmousedown");
@@ -48,7 +48,7 @@ else if (hostname == google) {
 
 
 function convert_wiki(old_wiki_path) {
-  var new_suffix = old_wiki_url.replace("/wiki/", "/w/");
+  var new_suffix = old_wiki_path.replace("/wiki/", "/w/");
   return new_suffix;
 }
 
@@ -67,9 +67,9 @@ function get_old_host(old_wiki_host) {
   }
 }
 function get_result() {
-  var old_wiki_result = document.queryselectorall("a[href^='http://" + old_os_wiki + "'], "a[href^='http://" + old_os_wikif + "']");
+  var old_wiki_result = document.queryselectorall("a[href^='http://" + old_os_wiki + "'], a[href^='http://" + old_os_wikif + "']");
   if (!old_wiki_result) {
-    var old_wiki_result = document.queryselectorall("a[href^='http://" + old_rs_wiki + "'], "a[href^='http://" + old_rs_wikif + "']");
+    var old_wiki_result = document.queryselectorall("a[href^='http://" + old_rs_wiki + "'], a[href^='http://" + old_rs_wikif + "']");
   }
   if (old_wiki_result) {
     return old_wiki_result;
