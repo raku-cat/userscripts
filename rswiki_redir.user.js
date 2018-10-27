@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         Redirect RS Wiki
 // @namespace    https://github.com/raku-cat/
-// @version      1.3.1
+// @version      1.3.2
 // @description  Redirects old wikia pages to the new wiki, and replaces google links with new wiki links.
 // @author       Raku <raku(at)raku(dot)party>
 // @license      GPL version 3; https://www.gnu.org/licenses/gpl-3.0.txt
 // @homepageURL  https://github.com/raku-cat/userscripts
 // @updateURL    https://github.com/raku-cat/userscripts/raw/master/rswiki_redir.user.js 
 // @downloadURL  https://github.com/raku-cat/userscripts/raw/master/rswiki_redir.user.js
-// @include      /^https?:\/\/((oldschool)?runescape\.(wikia|fandom)\.com|(www.)?google\.+?)\/(wiki\/.+?\/?|search\?(q|client)\=.+?)/
+// @include      /^https?:\/\/((oldschool)?runescape\.(wikia|fandom)\.com|(www.)?google\..+?)\/(wiki\/.+?\/?|search\?(q|client)\=.+?)/
 // @grant        none
 // @run-at       document-end
 // ==/UserScript==
@@ -42,7 +42,10 @@ else if (hostname.includes("google")) {
     var new_wiki_path = convert_wiki(old_wiki_path);
     var new_wiki_href = get_rs_version(old_wiki_host) + new_wiki_path;
     old_wiki_result[i].href = new_wiki_href;
-    old_wiki_result[i].querySelector(".iUh30").textContent=new_wiki_href;
+    console.log(old_wiki_result[i])
+    if (old_wiki_result[i].querySelector("cite")) {
+      old_wiki_result[i].querySelector("cite").textContent = new_wiki_href;
+    }
   }
 }
 
@@ -67,10 +70,7 @@ function get_old_host(old_wiki_host) {
   }
 }
 function get_result() {
-  var old_wiki_result = document.queryselectorall("a[href^='http://" + old_os_wiki + "'], a[href^='http://" + old_os_wikif + "']");
-  if (!old_wiki_result) {
-    var old_wiki_result = document.queryselectorall("a[href^='http://" + old_rs_wiki + "'], a[href^='http://" + old_rs_wikif + "']");
-  }
+  var old_wiki_result = document.querySelectorAll("a[href^='http://" + old_os_wiki + "'], a[href^='http://" + old_os_wikif + "'], a[href^='http://" + old_rs_wiki + "'], a[href^='http://" + old_rs_wikif + "']");
   if (old_wiki_result) {
     return old_wiki_result;
   }
@@ -84,3 +84,4 @@ function get_rs_version(old_host) {
     return new_rs_wiki;
   }
 }
+
