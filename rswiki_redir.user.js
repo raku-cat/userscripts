@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Redirect RS Wiki
 // @namespace    https://github.com/raku-cat/
-// @version      1.2
+// @version      1.2.1
 // @description  Redirects old wikia pages to the new wiki, and replaces google links with new wiki links.
 // @author       Raku <raku(at)raku(dot)party>
 // @license      GPL version 3; https://www.gnu.org/licenses/gpl-3.0.txt
 // @homepageURL  https://github.com/raku-cat/userscripts
-// @updateURL    https://github.com/raku-cat/userscripts/raw/master/osrswiki_redir.user.js 
-// @downloadURL  https://github.com/raku-cat/userscripts/raw/master/osrswiki_redir.user.js
+// @updateURL    https://github.com/raku-cat/userscripts/raw/master/rswiki_redir.user.js 
+// @downloadURL  https://github.com/raku-cat/userscripts/raw/master/rswiki_redir.user.js
 // @include      /^https?:\/\/((oldschool)?runescape\.(wikia|fandom)\.com|(www.)?google\.+?)\/(wiki\/.+?\/?|search\?(q|client)\=.+?)/
 // @grant        none
 // @run-at       document-end
