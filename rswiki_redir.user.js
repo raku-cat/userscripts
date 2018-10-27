@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Redirect RS Wiki
 // @namespace    https://github.com/raku-cat/
-// @version      1.3
+// @version      1.3.1
 // @description  Redirects old wikia pages to the new wiki, and replaces google links with new wiki links.
 // @author       Raku <raku(at)raku(dot)party>
 // @license      GPL version 3; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -21,7 +21,7 @@ var new_os_wiki = "https://oldschool.runescape.wiki";
 var old_os_wiki = "oldschoolrunescape.wikia.com";
 var old_os_wikif = "oldschoolrunescape.fandom.com";
 
-var new_rs_wiki = "https://runesacpe.wiki";
+var new_rs_wiki = "https://runescape.wiki";
 var old_rs_wiki = "runescape.wikia.com";
 var old_rs_wikif = "runescape.fandom.com";
 
