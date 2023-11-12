@@ -6,8 +6,8 @@
 // @author       Raku <raku(at)raku(dot)party>
 // @license      GPL version 3; https://www.gnu.org/licenses/gpl-3.0.txt
 // @homepageURL  https://github.com/raku-cat/userscripts
-// @updateURL    https://github.com/raku-cat/userscripts/raw/master/rswiki_redir.user.js
-// @downloadURL  https://github.com/raku-cat/userscripts/raw/master/rswiki_redir.user.js
+// @updateURL    https://github.com/raku-cat/userscripts/raw/master/ttrwiki_redir.user.js
+// @downloadURL  https://github.com/raku-cat/userscripts/raw/master/ttrwiki_redir.user.js
 // @include      /^https?:\/\/(toontownrewritten\.(fandom)\.com|(www.)?google\..+?)\/(wiki\/.+?\/?|search\?(q|client)\=.+?)/
 // @grant        none
 // @run-at       document-end
