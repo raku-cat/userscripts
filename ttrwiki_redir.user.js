@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Redirect TTR Wiki
 // @namespace    https://github.com/raku-cat/
-// @version      1.0-1
+// @version      1.1
 // @description  Attemps to redirect old TTR fandom pages to the new wiki, and replaces google links with new wiki links.
 // @author       Raku <raku(at)raku(dot)party>
 // @license      GPL version 3; https://www.gnu.org/licenses/gpl-3.0.txt
@@ -14,43 +14,43 @@
 // ==/UserScript==
 
 
-var hostname = location.hostname;
-var pathname = location.pathname;
+const hostname = location.hostname;
+const pathname = location.pathname;
+const newWiki = "https://toontownrewritten.wiki";
+const oldWiki = "toontownrewritten.fandom.com";
 
-var new_wiki = "https://toontownrewritten.wiki";
-var old_wiki = "toontownrewritten.fandom.com";
 
+if (hostname === oldWiki || hostname.startsWith("www.google")) {
+  if (pathname.startsWith("/wiki/") && hostname === oldWiki) {
+    let convertedPath = convertWiki(pathname);
+    let newURL = constructNewURL(convertedPath);
+    window.location.replace(newURL);
+  }
 
-if (pathname.startsWith("/wiki/")) {
-  var converted_path = convert_wiki(pathname);
-  var new_url = new_wiki + converted_path;
-  window.location.replace(new_url);
-}
-
-else if (hostname.includes("google")) {
-  var old_wiki_result = get_result();
-  for (var i=0; i<old_wiki_result.length; i++) {
-    old_wiki_result[i].removeAttribute("onmousedown");
-    var old_wiki_path = old_wiki_result[i].href.split(old_wiki)[1];
-    var new_wiki_path = convert_wiki(old_wiki_path);
-    var new_wiki_href = new_wiki + new_wiki_path;
-    old_wiki_result[i].href = new_wiki_href;
-    console.log(old_wiki_result[i])
-    if (old_wiki_result[i].querySelector("cite")) {
-      old_wiki_result[i].querySelector("cite").textContent = new_wiki_href;
-    }
+  else if (hostname.startsWith("www.google")) {
+    let oldWikiResult = getResult();
+    oldWikiResult.forEach(result => {
+      result.removeAttribute("onmousedown");
+      let oldWikiPath = result.href.split(oldWiki)[1];
+      let newWikiPath = convertWiki(oldWikiPath);
+      result.href = constructNewURL(newWikiPath);
+      console.log(result)
+      if (result.querySelector("cite")) {
+        result.querySelector("cite").textContent = constructNewURL(newWikiPath);
+      }
+    });
   }
 }
 
-function convert_wiki(old_wiki_path) {
-  var new_suffix = old_wiki_path.replace("/wiki/", "/");
-  return new_suffix;
+function convertWiki(oldWikiPath) {
+  return oldWikiPath.replace("/wiki/", "/");
 }
 
+function getResult() {
+  let oldWikiResult = document.querySelectorAll("a[href*='" + oldWiki + "']");
+  return oldWikiResult.length ? oldWikiResult : null;
+}
 
-function get_result() {
-  var old_wiki_result = document.querySelectorAll("a[href^='http://" + old_wiki + "'], a[href^='https://" + old_wiki + "']")
-  if (old_wiki_result) {
-    return old_wiki_result;
-  }
+function constructNewURL(path) {
+  return newWiki + path;
 }
